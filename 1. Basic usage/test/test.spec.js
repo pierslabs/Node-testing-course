@@ -20,6 +20,10 @@ describe("first test", () => {
 
     it("should do something", () => {
       assert.equal(1, 1);
+      console.log("ENV:", process.env.NODE_ENV);
+      if (process.env.NODE_ENV === "development") {
+        console.log("DEVELOPMENT MODE");
+      }
     });
 
     it("should do something else", () => {
