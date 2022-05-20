@@ -29,6 +29,7 @@ describe("first test", () => {
     it("this a pending test");
   });
 
+  // multiple context
   context("another function", () => {
     it("should something 2");
   });
