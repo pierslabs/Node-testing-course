@@ -66,5 +66,14 @@ describe("demo", () => {
       //Always restore the spy, it can give errors in other tests
       spy.restore();
     });
+
+    it("should stub console.warn", () => {
+      let stub = sinon.stub(console, "warn").callsFake(() => {
+        console.log("message warning");
+      });
+
+      demo.foo();
+      expect(stub).to.have.been.calledOnce;
+    });
   });
 });
