@@ -13,6 +13,7 @@ const User = require("./models/user");
 let sandbox = sinon.createSandbox();
 describe.only("users", () => {
   let findStub;
+  let deleteStub;
   let sampleArgs;
   let sampleUser;
 
@@ -24,6 +25,9 @@ describe.only("users", () => {
       age: 35,
     };
     findStub = sandbox.stub(mongoose.Model, "findById").resolves(sampleUser);
+    deleteStub = sandbox
+      .stub(mongoose.Model, "remove")
+      .resolves("fake_remove_result");
   });
 
   afterEach(() => {
@@ -49,6 +53,23 @@ describe.only("users", () => {
         expect(stub).to.have.been.calledWith(12345);
         expect(result).to.be.a("object");
         expect(result).to.have.property("name").to.equal("Pier");
+
+        done();
+      });
+    });
+
+    it("should catch error if there is one", (done) => {
+      sandbox.restore();
+      let stub = sandbox
+        .stub(mongoose.Model, "findById")
+        .yields(new Error("fake"));
+
+      users.get(123, (error, result) => {
+        expect(result).to.not.exist;
+        expect(error).to.exist;
+        expect(error).to.be.instanceof(Error);
+        expect(stub).to.have.been.calledWith(123);
+        expect(error.message).to.equal("fake");
 
         done();
       });
