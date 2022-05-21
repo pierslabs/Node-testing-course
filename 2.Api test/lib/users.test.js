@@ -75,4 +75,28 @@ describe.only("users", () => {
       });
     });
   });
+
+  context("delete user", () => {
+    it("should check for an id using return", () => {
+      return users
+        .delete()
+        .then((res) => {
+          throw new Error("unexpected succes");
+        })
+        .catch((err) => {
+          expect(err).to.be.instanceof(Error);
+          expect(err.message).to.equal("Invalid id");
+        });
+    });
+
+    it("should check for error using eventually", () => {
+      return expect(users.delete()).to.eventually.be.rejectedWith("Invalid id");
+    });
+
+    it("should call User remove", async () => {
+      const result = await users.delete(12345);
+      expect(result).to.equal("fake_remove_result");
+      expect(deleteStub).to.have.been.calledWith({ _id: 12345 });
+    });
+  });
 });
