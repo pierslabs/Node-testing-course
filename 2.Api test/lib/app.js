@@ -7,7 +7,7 @@ const db = require("../config/database");
 const users = require("./users");
 const auth = require("./auth");
 
-mongoose.connect(db());
+mongoose.connect(db(), { useUnifiedTopology: true, useNewUrlParser: true });
 
 app.use(
   bodyParser.urlencoded({

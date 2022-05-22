@@ -11,7 +11,7 @@ let config = require("./config");
 let utils = require("./utils");
 let sandbox = sinon.createSandbox();
 
-describe.only("utils", () => {
+describe("utils", () => {
   let secretStub, digestStub, updateStub, createHashStub, hash;
 
   beforeEach(() => {
