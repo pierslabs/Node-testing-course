@@ -26,6 +26,7 @@ describe("users", () => {
       name: "Pier",
       email: "pier@pier.com",
       age: 35,
+      save: sandbox.stub().resolves(),
     };
     findStub = sandbox.stub(mongoose.Model, "findById").resolves(sampleUser);
     deleteStub = sandbox
@@ -150,6 +151,26 @@ describe("users", () => {
       saveStub.rejects(new Error("fake"));
 
       await expect(users.create(sampleUser)).to.eventually.rejectedWith("fake");
+    });
+  });
+
+  context("users update", () => {
+    it("should find user by id", async () => {
+      await users.update(12345, { age: 35 });
+      expect(findStub).to.have.been.calledWith(12345);
+    });
+
+    it("should user save", async () => {
+      await users.update(12345, { age: 35 });
+      expect(sampleUser.save).to.have.been.calledOnce;
+    });
+
+    it("should rejects if there is an error", async () => {
+      findStub.throws(new Error("fake"));
+
+      await expect(
+        users.update(12345, { age: 35 })
+      ).to.eventually.be.rejectedWith("fake");
     });
   });
 });
