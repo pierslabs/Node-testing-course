@@ -13,7 +13,7 @@ let users = require("./users");
 const auth = require("./auth");
 let sandbox = sinon.createSandbox();
 
-describe.only("app", () => {
+describe("app", () => {
   afterEach(() => {
     app = rewire("./app");
     sandbox.restore();
