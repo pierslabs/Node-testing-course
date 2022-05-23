@@ -4,7 +4,7 @@ const expect = chai.expect;
 
 let user = require("./user");
 
-describe.only("user model", () => {
+describe("user model", () => {
   it("shoul return error with required ares are missing", (done) => {
     let user = new User();
 
